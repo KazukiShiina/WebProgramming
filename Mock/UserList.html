@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ユーザ一覧</title>
+<link rel="stylesheet" href="BoxSizing.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<header>
+ <div class="head1"> ユーザ名 &nbsp;さん &emsp;&emsp;
+   <a class="head2" href="file:///Users/c7-shiina/Documents/git/WebProgramming/Mock/Login.html">ログアウト</a>
+ </div>
+</header>
+<h1>ユーザ一覧</h1>
+ <div class="migi">
+  <a href=file:///Users/c7-shiina/Documents/git/WebProgramming/Mock/NewUser.html>新規登録</a>&emsp;
+ </div>
+<form>
+ <div class="box" align="left">
+  <div class="box1"style="float:left;">
+     &emsp;&emsp;&emsp;&emsp;ログインID<br/><br/>
+     &emsp;&emsp;&emsp;&emsp;ユーザ名<br/><br/>
+     &emsp;&emsp;&emsp;&emsp;生年月日<br/><br/>
+  </div>
+ <div class="box2"style="float:right;">
+  <form action="//www-creators.com/rsc/receiver.php" method="post">
+      <input style="width:305px;" type="text" class="loginId"><br/><br/>
+      <input style="width:305px;" type="text" class="userNm"><br/><br/>
+      <div style="display:inline-flex">
+      <input style="width:145px;" type="date" class="birthday">〜
+      <input style="width:145px;" type="date" class="birthday">
+      </div>
+  </form>
+  </div>
+ </div>
+ <div class="migi">&emsp;&emsp;<br><br><br>
+    <button type="button" style="width:120px;height:30px;" ><font size="3">検索</font></button>&emsp;
+ </div>
+ <hr/>
+  <div align="center">
+ <table border="1" cellspacing="0" bordercolor="#000000" style="width:800px;" >
+  <tr>
+   <th>ログインID</th>
+   <th>ユーザ名</th>
+   <th>生年月日</th>
+   <th></th>
+  </tr>
+  <tr>
+  <td>Id0001</td>
+  <td>田中太郎</td>
+  <td>1989年04月26日</td>
+  <td class="buttonG">
+   <a class="cw" href=file:///Users/c7-shiina/Documents/git/WebProgramming/Mock/InfoTanaka.html>
+   <button type="button" class="btn btn-primary">詳細</button></a>&emsp;&emsp;
+   <a class="cw" href=file:///Users/c7-shiina/Documents/git/WebProgramming/Mock/updTanaka.html>
+   <button type="button" class="btn btn-success">更新</button></a>&emsp;&emsp;
+   <a class="cw" href=file:///Users/c7-shiina/Documents/git/WebProgramming/Mock/deleteTanaka.html>
+   <button type="button" class="btn btn-danger">削除</button></a>
+  </td>
+  </tr>
+  <tr>
+  <td>Id0002</td>
+  <td>佐藤二朗</td>
+  <td>2001年11月12日</td>
+  <td class="buttonG">
+  <button type="button" class="btn btn-primary">詳細</button>&emsp;&emsp;
+  <button type="button" class="btn btn-success">更新</button>&emsp;&emsp;
+  <button type="button" class="btn btn-danger">削除</button>
+  </td>
+  </tr>
+  <tr>
+  <td>Id0003</td>
+  <td>佐川真司</td>
+  <td>2000年01月01日</td>
+  <td class="buttonG">
+  <button type="button" class="btn btn-primary">詳細</button>&emsp;&emsp;
+  <button type="button" class="btn btn-success">更新</button>&emsp;&emsp;
+  <button type="button" class="btn btn-danger">削除</button>
+  </td>
+  </tr>
+ </table>
+ </div>
+
+
+
+</form>
+
+
+
+</body>
+</html>
