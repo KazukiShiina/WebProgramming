@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+ .box{
+    width: 540px;
+    margin: 0 auto;
+    border: 25px;
+    margin-left:40px;
+    margin-right:auto;
+}
+.box1{
+    width: 270px;
+}
+.box2{
+    width: 270px;
+}
+
+  header{
+    text-align: right;
+    background-color: gray;
+  }
+
+  .head1{
+     color: white;
+  }
+
+  .head2{
+     color: red;
+  }
+
+  h1{
+     text-align: center;
+  }
+
+  .migi{
+     text-align: right;
+  }
+
+  .birthday{
+    width: 120px;
+  }
+
+  table{
+     width:100%;
+     border: 1;
+  }
+
+  .center{
+    text-align: center;
+  }
+
+  .left{
+     text-align: left;
+  }
+
+  .buttonG{
+    text-align: center;
+    }
+
+  .cb{
+     color: black;
+     text-decoration: none;
+  }
+
+  .cw{
+     color: white;
+  }
+
+  .maintable{
+  	margin-left:auto;
+    margin-right:auto;
+    margin:0px auto;
+  }
