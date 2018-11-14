@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -57,13 +58,18 @@ public class LoginServlet extends HttpServlet {
         // リクエストパラメータの文字コードを指定
         request.setCharacterEncoding("UTF-8");
 
+        try {
+
 		// リクエストパラメータの入力項目を取得
 		String loginId = request.getParameter("loginId");
 		String password = request.getParameter("password");
 
 		// リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
 		UserDao userDao = new UserDao();
-		User user = userDao.findByLoginInfo(loginId, password);
+		User user;
+
+			user = userDao.findByLoginInfo(loginId, password);
+
 
 		/** テーブルに該当のデータが見つからなかった場合 **/
 		if (user == null) {
@@ -83,6 +89,11 @@ public class LoginServlet extends HttpServlet {
 
 		// ユーザ一覧のサーブレットにリダイレクト
 		response.sendRedirect("UserListServlet");
+
+        } catch (NoSuchAlgorithmException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 
 	}
 

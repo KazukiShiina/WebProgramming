@@ -36,6 +36,7 @@ public class User {
 		this.updateDate = updateDate;
 	}
 
+
 	public User(String loginIdData, String nameData, Date birthData, String createData, String updateData, String passData){
 		this.loginId = loginIdData;
 		this.name = nameData;

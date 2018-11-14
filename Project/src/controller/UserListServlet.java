@@ -1,9 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -38,14 +35,18 @@ public class UserListServlet extends HttpServlet {
 		// ログインセッションがない場合、ログイン画面にリダイレクトさせる
 		HttpSession session = request.getSession(false);
 
+
 		if(session == null) {
 			response.sendRedirect("LoginServlet");
 			return;
 		}else {
 
+
+
 		// ユーザ一覧情報を取得
 		UserDao userDao = new UserDao();
 		List<User> userList = userDao.findAll();
+
 
 		// リクエストスコープにユーザ一覧情報をセット
 		request.setAttribute("userList", userList);
@@ -60,26 +61,32 @@ public class UserListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.setCharacterEncoding("UTF-8");
+		 request.setCharacterEncoding("UTF-8");
 
-        try {
-
-		// リクエストパラメータの入力項目を取得
-		String loginId = request.getParameter("loginId");
-		String name = request.getParameter("userNm");
-		String birthDate = request.getParameter("birthDate");
-		String birthDate2 = request.getParameter("birthDate2");
-
-		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-			Date birthData = new Date(sdFormat.parse(birthDate).getTime());
-			Date birthData2 = new Date(sdFormat.parse(birthDate).getTime());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+	// リクエストパラメータの入力項目を取得
+	String loginIdData = request.getParameter("loginId");
+	String nameData = request.getParameter("userNm");
+	String BirthDate = request.getParameter("birthDate");
+	String BirthDate2 = request.getParameter("birthDate2");
 
 
 
-	}
+	System.out.println(loginIdData);
+	System.out.println(nameData);
+	System.out.println(BirthDate);
+	System.out.println(BirthDate2);
 
-}
+
+	// ユーザ一覧情報を取得
+
+	UserDao userDao = new UserDao();
+	List<User> userList = userDao.searchUser(loginIdData,nameData,BirthDate,BirthDate2);
+
+	// スコープにユーザ一覧情報をセット
+	request.setAttribute("userList", userList);
+
+	// ユーザ一覧のjspにフォワード
+	RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/userList.jsp");
+		dispatcher.forward(request, response);
+			}
+    		}

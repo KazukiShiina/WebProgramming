@@ -43,9 +43,9 @@
  <input type="password" name="password" required><br/><br/>
  <input type="password" name="rePassword" required><br/><br/>
  <input type="text" name="name" required><br/><br/>
- <input type="date" name="birthDate" value='2014-03-18' required>
+ <input type="date" name="birthDate" value='1900-01-01' required>
  <div align="center">&emsp;&emsp;&emsp;&emsp;<br><br><br>
-  <button type="submit" style="width:120px;height:30px;" > <font size="3">登録</font> </button>
+  <button type="submit" style="width:120px;height:30px;" ><font size="3">登録</font> </button>
 </div>
  </form>
  </div>

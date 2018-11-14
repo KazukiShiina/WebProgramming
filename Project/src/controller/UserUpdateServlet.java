@@ -82,6 +82,10 @@ public class UserUpdateServlet extends HttpServlet {
 				String hidPassword = request.getParameter("hidPassword");
 				String hidRePassword = request.getParameter("hidRePassword");
 
+				System.out.println(loginId);
+				System.out.println(birthDate);
+
+
 				if(birthDate.contains(" ") || name.contains(" ") ||password.contains(" ") ||rePassword.contains(" ")){
 					// リクエストスコープにエラーメッセージをセット
 					request.setAttribute("errMsg", "不正な入力です、入力欄にスペースを含まないでください");

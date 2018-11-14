@@ -33,15 +33,16 @@
      	生年月日<br/><br/>
   	</div>
  	<div class="box2"style="float:right;">
-  		<form method="post" action="#" class="form-horizontal">
-     			<input style="width:305px;" type="text" class="loginId" name="loginId"><br/><br/>
-     		    <input style="width:305px;" type="text" class="userNm" name="userNm"><br/><br/>
+  		<form method="post" action="UserListServlet" class="form-horizontal">
+     			<input style="width:305px;" type="text" class="loginId" name="loginId" max="9999-12-31"><br/><br/>
+     		    <input style="width:305px;" type="text" class="userNm" name="userNm" max="9999-12-31"><br/><br/>
       		<div style="display:inline-flex">
-      			<input style="width:145px;" type="date" class="birthday" name="birthdate">〜
-     		    <input style="width:145px;" type="date" class="birthday" name="birthdate2">
+      			<input style="width:145px;" type="date" name="birthDate">〜
+     		    <input style="width:145px;" type="date" name="birthDate2">
+     		</div>
         		<div class="text-right">
                   <button type="submit" value="検索" class="btn btn-primary form-submit">検索</button>
-      		</div></div>
+      		</div>
   		</form>
   	</div>
   &emsp;&emsp;

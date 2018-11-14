@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
+import model.User;
 
 /**
  * Servlet implementation class UserListServlet
@@ -49,6 +50,8 @@ public class UserCreateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
+
+
 		// リクエストパラメータの入力項目を取得
 
 		try {
@@ -72,11 +75,12 @@ public class UserCreateServlet extends HttpServlet {
 
 				Date birthData = new Date(sdFormat.parse(birthDate).getTime());
 
+
 				if (name == null || name.isEmpty() ||birthDate == null || loginId == null
 						||loginId.isEmpty() || password == null || password.isEmpty()
 						||rePassword == null || rePassword.isEmpty()) {
 					// リクエストスコープにエラーメッセージをセット
-					request.setAttribute("errMsg", "未入力の部分があります");
+					request.setAttribute("errMsg", "未入力の部分があります。");
 
 					// ユーザ新規作成のjspにフォワード
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/userCreate.jsp");
@@ -85,7 +89,7 @@ public class UserCreateServlet extends HttpServlet {
 
 				}else if(!(password.equals(rePassword))) {
 					// リクエストスコープにエラーメッセージをセット
-					request.setAttribute("errMsg", "パスワードと確認用パスワードが一致しません");
+					request.setAttribute("errMsg", "パスワードと確認用パスワードが一致しません。");
 
 					// ユーザ新規作成のjspにフォワード
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/userCreate.jsp");
@@ -96,12 +100,25 @@ public class UserCreateServlet extends HttpServlet {
 
 		// リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
 				UserDao userDao = new UserDao();
+				User user = userDao.findLoginId(loginId);
+				if (user != null) {
+					// リクエストスコープにエラーメッセージをセット
+					request.setAttribute("errMsg", "そのログインIDは既に使用されています。");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/userCreate.jsp");
+					dispatcher.forward(request, response);
+					return;
+				}
+
+				System.out.println(user);
+
 				userDao.createUser(loginId, password,rePassword,name,birthData);
+
 
 		} catch (ParseException e) {
 		e.printStackTrace();
 		}
 		response.sendRedirect("UserListServlet");
+
 
 	}
 }

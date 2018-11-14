@@ -1,5 +1,9 @@
 package dao;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -7,7 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+
+import javax.xml.bind.DatatypeConverter;
 
 import model.User;
 
@@ -23,10 +30,27 @@ public class UserDao {
      * @param loginId
      * @param password
      * @return
+     * @throws NoSuchAlgorithmException
      */
-    public User findByLoginInfo(String loginId, String password) {
+    public User findByLoginInfo(String loginId, String password) throws NoSuchAlgorithmException {
         Connection conn = null;
         try {
+
+        	//ハッシュを生成したい元の文字列
+        	String source = password;
+        	//ハッシュ生成前にバイト配列に置き換える際のCharset
+        	Charset charset = StandardCharsets.UTF_8;
+        	//ハッシュアルゴリズム
+        	String algorithm = "MD5";
+
+        	//ハッシュ生成処理
+        	byte[] bytes;
+
+    			bytes = MessageDigest.getInstance(algorithm).digest(source.getBytes(charset));
+
+        	String paPassword = DatatypeConverter.printHexBinary(bytes);
+
+        	System.out.println(paPassword);
             // データベースへ接続
             conn = DBManager.getConnection();
 
@@ -36,7 +60,7 @@ public class UserDao {
              // SELECTを実行し、結果表を取得
             PreparedStatement pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, loginId);
-            pStmt.setString(2, password);
+            pStmt.setString(2, paPassword);
             ResultSet rs = pStmt.executeQuery();
 
              // 主キーに紐づくレコードは1件のみなので、rs.next()は1回だけ行う
@@ -53,7 +77,9 @@ public class UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-        } finally {
+
+
+		} finally {
             // データベース切断
             if (conn != null) {
                 try {
@@ -122,7 +148,24 @@ public class UserDao {
 
     public void createUser(String loginId, String password, String rePassword, String name, Date birthData ) {
         Connection conn = null;
-        try {
+    	try {
+
+    	//ハッシュを生成したい元の文字列
+    	String source = password;
+    	//ハッシュ生成前にバイト配列に置き換える際のCharset
+    	Charset charset = StandardCharsets.UTF_8;
+    	//ハッシュアルゴリズム
+    	String algorithm = "MD5";
+
+    	//ハッシュ生成処理
+    	byte[] bytes;
+
+			bytes = MessageDigest.getInstance(algorithm).digest(source.getBytes(charset));
+
+    	String paPassword = DatatypeConverter.printHexBinary(bytes);
+
+    	System.out.println(paPassword);
+
             // データベースへ接続
             conn = DBManager.getConnection();
 
@@ -135,7 +178,7 @@ public class UserDao {
             pStmt.setString(1, loginId);
             pStmt.setString(2, name);
             pStmt.setDate(3, birthData);
-            pStmt.setString(4, password);
+            pStmt.setString(4, paPassword);
 
             int result = pStmt.executeUpdate();
 
@@ -145,7 +188,10 @@ public class UserDao {
             pStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } catch (NoSuchAlgorithmException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		} finally {
             // データベース切断
             if (conn != null) {
                 try {
@@ -203,6 +249,21 @@ public class UserDao {
     public void InfoUpdate(String id,String loginId, String password, String rePassword, String name, Date birthData ) {
     	 Connection conn = null;
          try {
+        	 	//ハッシュを生成したい元の文字列
+         	String source = password;
+         	//ハッシュ生成前にバイト配列に置き換える際のCharset
+         	Charset charset = StandardCharsets.UTF_8;
+         	//ハッシュアルゴリズム
+         	String algorithm = "MD5";
+
+         	//ハッシュ生成処理
+         	byte[] bytes;
+
+     			bytes = MessageDigest.getInstance(algorithm).digest(source.getBytes(charset));
+
+         	String paPassword = DatatypeConverter.printHexBinary(bytes);
+
+         	System.out.println(paPassword);
              // データベースへ接続
              conn = DBManager.getConnection();
 
@@ -217,7 +278,7 @@ public class UserDao {
 
              // UPDATEを実行
             PreparedStatement pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, password);
+            pStmt.setString(1, paPassword);
             pStmt.setString(2, name);
             pStmt.setDate(3, birthData);
             pStmt.setString(4,id);
@@ -230,7 +291,10 @@ public class UserDao {
             pStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } catch (NoSuchAlgorithmException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		} finally {
             // データベース切断
             if (conn != null) {
                 try {
@@ -335,7 +399,6 @@ public class UserDao {
                 return null;
             }
             String loginIdData = rs.getString("login_id");
-
             return new User(loginIdData);
 
         } catch (SQLException e) {
@@ -354,22 +417,49 @@ public class UserDao {
         }
     }
 
-    public List<User> findUser() {
-        Connection conn = null;
-        List<User> userList = new ArrayList<User>();
 
-        try {
-            // データベースへ接続
-            conn = DBManager.getConnection();
 
-            // SELECT文を準備
-            String sql = "SELECT * FROM user WHERE login_id LIKE '%文字列%'";
+public  List<User> searchUser (String loginIdData,String nameData,String BirthDate,String BirthDate2) {
+    Connection conn = null;
+    List<User> userList = new ArrayList<User>();
 
-             // SELECTを実行し、結果表を取得
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
 
-            // 結果表に格納されたレコードの内容を
+    System.out.println(loginIdData);
+    System.out.println(nameData);
+    System.out.println(BirthDate);
+    System.out.println(BirthDate2);
+
+
+
+	try {
+
+		// SELECT文を準備
+        String sql = "SELECT * FROM user where id >= 2";
+        // データベースへ接続
+        conn = DBManager.getConnection();
+
+        if(!loginIdData.equals("")) {
+        		sql += " AND login_id ='" + loginIdData + "'";
+        }
+
+        if(!nameData.equals("")) {
+    			sql += " AND name LIKE  '%" + nameData + "%'";
+        }
+
+        if(!BirthDate.equals("")) {
+    			sql += " AND birth_date >= '" + BirthDate + "'";
+        }
+
+        if(!BirthDate2.equals("")) {
+    			sql += " AND birth_date <=  '" + BirthDate2 + "'";
+        }
+
+        // SELECTを実行し、結果表を取得
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+
+            ResultSet rs = pStmt.executeQuery();
+
+         // 結果表に格納されたレコードの内容を
             // Userインスタンスに設定し、ArrayListインスタンスに追加
             // rs.next() = レコードを次に進める
             while (rs.next()) {
@@ -383,21 +473,25 @@ public class UserDao {
                 User user = new User(id, loginId, name, birthDate, password, createDate, updateDate);
 
                 userList.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            // データベース切断
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return null;
-                }
+            			}
+
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return null;
+    } finally {
+        // データベース切断
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
             }
         }
-        return userList;
     }
+	List<User> HashUserList = new ArrayList<User>(new LinkedHashSet<>(userList));
+    System.out.println(HashUserList);
+    return HashUserList;
+	}
 }
